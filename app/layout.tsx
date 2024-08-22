@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NoteSphere - A note-taking app",
+  title: "NoteSphere",
   description:
     "NoteSphere is a note-taking app that helps you organize your thoughts and ideas.",
 };
