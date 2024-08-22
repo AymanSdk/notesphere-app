@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { ChevronsLeft, MenuIcon } from "lucide-react";
-import { ElementRef, useRef, useState } from "react";
+import React, { ElementRef, useRef, useState } from "react";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -14,7 +14,46 @@ export const Navigation = () => {
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
-  const [isClollapsed, setIsCollapsed] = useState(isMobile);
+  const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    isResizingRef.current = true;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  //   handling mouse move event to resize the sidebar
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!isResizingRef.current) return;
+    let newWidth = event.clientX;
+
+    if (newWidth < 240) newWidth = 240;
+    if (newWidth > 480) newWidth = 480;
+
+    if (sidebarRef.current && navbarRef.current) {
+      sidebarRef.current.style.width = `${newWidth}px`;
+      navbarRef.current.style.setProperty("left", `${newWidth}px`);
+      navbarRef.current.style.setProperty(
+        "width",
+        `calc(100% - ${newWidth}px)`
+      );
+    }
+  };
+  //   handle mouse up event to stop resizing the sidebar
+  const handleMouseUp = () => {
+    isResizingRef.current = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+  //   handle sidebar collapse
+  const resetWidth = () => {
+    if (sidebarRef.current && navbarRef.current) {
+    }
+  };
 
   return (
     <>
@@ -41,7 +80,11 @@ export const Navigation = () => {
         <div className="mt-4 ">
           <p>Documents</p>
         </div>
-        <div className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0" />
+        <div
+          onMouseDown={handleMouseDown}
+          onClick={() => {}}
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
+        />
       </aside>
       <div
         ref={navbarRef}
@@ -52,7 +95,7 @@ export const Navigation = () => {
         )}
       >
         <nav className="bg-transparent px-3 py-2 w-full">
-          {isClollapsed && (
+          {isCollapsed && (
             <MenuIcon role="button" className="h-6 w-6 text-muted-foreground" />
           )}
         </nav>
