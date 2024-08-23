@@ -1,7 +1,8 @@
 // local imports
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
-// global styles and fonts
+// global import & styles & fonts
+import { Toaster } from "sonner";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="notium-theme"
           >
+            <Toaster position="bottom-center" />
             {children}
           </ThemeProvider>
         </ConvexClientProvider>
