@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { ArrowBigDown, ChevronsLeft, MenuIcon } from "lucide-react";
-import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { UserItem } from "./user-item";
+import React, { ElementRef, useEffect, useRef, useState } from "react";
 
 export const Navigation = () => {
   const pathname = usePathname();
