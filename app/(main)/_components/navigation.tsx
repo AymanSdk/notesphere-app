@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Item } from "./item";
 import { UserItem } from "./user-item";
+import { TrashBox } from "./trash-box";
 import {
   Popover,
   PopoverTrigger,
@@ -162,7 +163,7 @@ export const Navigation = () => {
               className="p-0 w-72"
               side={isMobile ? "bottom" : "right"}
             >
-              <p>Trash box</p>
+              <TrashBox />
             </PopoverContent>
           </Popover>
         </div>
