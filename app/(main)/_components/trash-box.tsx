@@ -9,7 +9,8 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useQuery, useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Trash, Undo } from "lucide-react";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 export const TrashBox = () => {
   const router = useRouter();
@@ -74,6 +75,38 @@ export const TrashBox = () => {
           className="h-7 px-2 focus-visible:ring-transparent bg-secondary"
           placeholder="Filter by note title..."
         />
+      </div>
+      <div className="mt-2 px-1 pb-1">
+        <p className="hidden last:block text-sm text-center text-muted-foreground pb-2">
+          No notes found
+        </p>
+        {filteredDocuments?.map((document) => (
+          <div
+            key={document._id}
+            role="button"
+            onClick={() => onClick(document._id)}
+            className="text-sm rounded-sm w-full hover:bg-primary/5 flex items-center text-primary justify-between"
+          >
+            <span className="truncate pl-2">{document.title}</span>
+            <div className="flex items-center">
+              <div
+                className=" rounded-sm p-2 hover:bg-slate-200"
+                role="button"
+                onClick={(e) => onRestore(e, document._id)}
+              >
+                <Undo className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <ConfirmModal onConfirm={() => onRemove(document._id)}>
+                <div
+                  role="button"
+                  className="rounded-sm p-2 hover:bg-slate-200"
+                >
+                  <Trash className="h-4 w-4 text-muted-foreground" />
+                </div>
+              </ConfirmModal>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
